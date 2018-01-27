@@ -1,0 +1,40 @@
+[회원 인덱스 시퀀스]
+create sequence SP_USER_SEQ
+start with 0
+minvalue 0
+increment by 1;
+
+[게시판 인덱스 시퀀스]
+create sequence SP_BOARD_SEQ
+start with 0
+minvalue 0
+increment by 1;
+
+[사용자 테이블]
+create table SP_USER_TABLE(
+USER_IDX number constraint SP_USER_PK primary key,
+USER_ID varchar2(100) not null
+        constraint SP_USER_ID_UK unique,
+USER_NAME varchar2(50) not null,
+USER_PW varchar2(100) not null
+);
+
+[게시판 테이블]
+create table SP_BOARD_TABLE(
+BOARD_IDX number constraint SP_BOARD_PK primary key,
+BOARD_SUBJECT varchar2(500) not null,
+BOARD_CONTENT varchar2(500) not null,
+BOARD_WRITER_IDX number not null
+                 constraint SP_BOARD_FK
+                 references SP_USER_TABLE(USER_IDX)
+);
+
+
+
+
+
+
+
+
+
+

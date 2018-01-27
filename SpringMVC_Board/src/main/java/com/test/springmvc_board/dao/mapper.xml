@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+          "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mvc.mapper">
+	<insert id="add_user" parameterType="com.test.springmvc_board.bean.UserBean">
+		insert into SP_USER_TABLE
+		(USER_ID, USER_NAME, USER_PW)
+		values (#{user_id}, 
+		#{user_name}, #{user_pw})
+	</insert>
+	<select id="chk_login" 
+	        parameterType="com.test.springmvc_board.bean.UserBean"
+	        resultType="com.test.springmvc_board.bean.UserBean">
+	    select USER_IDX, USER_ID, USER_NAME
+	    from SP_USER_TABLE
+	    where USER_ID=#{user_id} and USER_PW=#{user_pw}
+	</select>
+	<insert id="add_board" parameterType="com.test.springmvc_board.bean.BoardBean">
+		insert into SP_BOARD_TABLE
+		(BOARD_SUBJECT, BOARD_CONTENT, BOARD_WRITER_IDX)
+		values (#{board_subject}, #{board_content}, #{board_writer_idx})
+	</insert>
+	<select id="get_board_list" resultType="com.test.springmvc_board.bean.BoardBean">
+		select a1.BOARD_IDX, a1.BOARD_SUBJECT, 
+		       a2.USER_NAME as BOARD_WRITER_NAME
+		from SP_BOARD_TABLE a1, SP_USER_TABLE a2
+		where a1.BOARD_WRITER_IDX = a2.USER_IDX
+		order by a1.BOARD_IDX desc
+	</select>
+	<select id="get_board_content" parameterType="int"
+	        resultType="com.test.springmvc_board.bean.BoardBean">
+		select a2.USER_NAME as BOARD_WRITER_NAME,
+		       a1.BOARD_SUBJECT, a1.BOARD_CONTENT
+		from SP_BOARD_TABLE a1, SP_USER_TABLE a2
+		where a1.BOARD_WRITER_IDX = a2.USER_IDX
+		      and a1.BOARD_IDX=#{id}
+	</select>
+</mapper>
+
+
+
+
+
+
